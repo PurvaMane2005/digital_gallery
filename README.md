@@ -23,6 +23,8 @@ Interface: Streamlit Web Dashboard.
 Semantic Search: A specialized UI that allows users to query their saved archive using natural language, interpreted by the Gemini model to match "vibes" or topics rather than just keywords.
 UI/UX Styling: Injected CSS for a dark-mode aesthetic, custom video clipping masks to remove platform headers, and keyframe-animated discovery modules.
 
+<img width="1024" height="1024" alt="System_diagram_hackthethread" src="https://github.com/user-attachments/assets/995b0f56-0cca-4919-a2e8-6c9fc260698c" />
+
 
 Technical Write-Up
 
@@ -47,3 +49,9 @@ Install Dependencies: pip install -r requirements.txt
 Configure Environment: Create a .env file containing SUPABASE_URL, SUPABASE_KEY, and GEMINI_API_KEY.
 Run Ingestion Server: python app.py (FastAPI/Uvicorn)
 Run Discovery Dashboard: streamlit run dashboard.py
+
+
+
+https://github.com/user-attachments/assets/dff7a309-7c9d-4d97-9d22-f4bcc2d9bb78
+
+
