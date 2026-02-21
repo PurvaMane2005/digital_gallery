@@ -27,6 +27,7 @@ UI/UX Styling: Injected CSS for a dark-mode aesthetic, custom video clipping mas
 Technical Write-Up
 The Challenge: Content Fragmentation
 The "Link Graveyard" phenomenon occurs when users save high-value content on social platforms but lose the ability to retrieve it because native platforms lack sophisticated organization and search tools.
+
 The Solution: Automated Metadata Indexing
 Digital Curator solves this by implementing an AI-driven metadata excavation process. By using Instaloader to pull raw captions and feeding them into Gemini, the system provides context necessary to categorize the content automatically without the high computational cost of full video processing.
 
@@ -34,15 +35,20 @@ Digital Curator solves this by implementing an AI-driven metadata excavation pro
 Key Technical Innovations
 
 Asynchronous Webhook Handling: Using FastAPI, the system manages multiple incoming requests and external API calls efficiently.
+
 Semantic Routing: Traditional keyword search is replaced with an AI-driven approach. The search functionality interprets the intent of a query—returning relevant results even if exact word matches are absent.
+
 Responsive Video Masking: A custom CSS clipping solution for the Streamlit dashboard hides platform-specific UI elements (such as the Instagram "View Profile" header) within the iframe, creating a native-app experience.
+
 Frictionless Ingestion: By utilizing WhatsApp as the input method, the system integrates into existing user habits with zero friction.
 
 
 Installation and Deployment
 
 Clone the Repository: git clone https://github.com/PurvaMane2005/digital_gallery.git
+
 Install Dependencies: pip install -r requirements.txt
+
 Configure Environment: Create a .env file containing SUPABASE_URL, SUPABASE_KEY, and GEMINI_API_KEY.
 
 Run Ingestion Server: python app.py (FastAPI/Uvicorn)
