@@ -50,13 +50,13 @@ Digital Curator solves this by implementing an AI-driven metadata excavation pro
 
 ## AI Scoring and Verification Engine
 
+> **Note:** These features were implemented post-recording. Core logic and outputs are detailed below.
+
 The system implements a multi-stage evaluation pipeline to ensure data integrity. To mitigate AI hallucinations and handle metadata scraping limitations, a hybrid scoring engine combines probabilistic AI inference with deterministic metadata verification.
 
 ### Hybrid Confidence Scoring
 
-Every ingested link is assigned a Confidence Score. This metric informs the user whether the categorization is based on rich metadata or a heuristic guess.
-
-**Logic:** The score is a weighted average of **Data Density** (availability of scraped text) and **Model Certainty** (the LLM's internal probability score).
+Every ingested link is assigned a Confidence Score based on **Data Density** (scraped text volume) and **Model Certainty** (LLM probability).
 
 ```python
 def calculate_confidence_score(scraped_text, ai_certainty):
@@ -65,11 +65,9 @@ def calculate_confidence_score(scraped_text, ai_certainty):
     Final Score = (Evidence * 0.6) + (AI Certainty * 0.4)
     """
     # 1. Evaluate Evidence (Data Density)
-    # If the scraper is blocked or returns no data, evidence is 0.
     evidence_score = min(1.0, len(scraped_text) / 500) if scraped_text else 0.0
     
     # 2. Weighted Calculation
-    # Raw evidence is prioritized over AI inference to prevent hallucinations.
     final_score = (evidence_score * 0.6) + (ai_certainty * 0.4)
     
     return round(final_score * 100, 2)
@@ -78,15 +76,12 @@ def calculate_confidence_score(scraped_text, ai_certainty):
 
 ### Dynamic Discovery and Taxonomy Validation
 
-The system utilizes **Zero-Shot Dynamic Tagging**, allowing the platform to adapt to emerging trends without manual updates to a fixed category list. Gemini 1.5 Flash analyzes the semantic fingerprint of the content to generate context-aware labels.
-
-**Implementation Logic:**
+The system utilizes **Zero-Shot Dynamic Tagging**, allowing the platform to adapt to emerging trends without a fixed category list.
 
 ```python
 def generate_dynamic_tags(scraped_text):
     """
-    Instructional prompt for Gemini to generate context-aware labels
-    rather than selecting from a fixed list.
+    Instructional prompt for Gemini to generate context-aware labels.
     """
     prompt = (
         f"Analyze this content: {scraped_text}\n"
@@ -100,7 +95,7 @@ def generate_dynamic_tags(scraped_text):
 
 ### Post-Inference Accuracy Check
 
-After the AI generates tags, a secondary accuracy heuristic cross-references the selection against domain-specific keywords found in the source text. This provides a "ground truth" verification layer.
+A secondary heuristic cross-references AI tags against domain-specific keywords for "ground truth" verification.
 
 ```python
 KEYWORD_MAP = {
@@ -111,23 +106,20 @@ KEYWORD_MAP = {
 
 def verify_accuracy(category, text):
     if not text: 
-        return 0.0  # Verification impossible without source text
+        return 0.0
     
     valid_keywords = KEYWORD_MAP.get(category, [])
     matches = [word for word in valid_keywords if word in text.lower()]
     
-    # Returns 1.0 (Verified) if keywords exist, otherwise 0.5 (Inference only)
     return 1.0 if len(matches) > 0 else 0.5
 
 ```
 
 ### Performance Metrics for Dashboard UI
 
-The results of these calculations are mapped to the dashboard to provide immediate visual feedback on data reliability:
-
 * **Verified (80-100%):** High metadata density and confirmed keyword matches.
 * **Uncertain (40-79%):** Valid AI inference but limited supporting metadata.
-* **Failed/Blocked (0-39%):** Scraper blocked by source; categorization based on URL context only.
+* **Failed/Blocked (0-39%):** Scraper blocked; categorization based on URL context only.
 
 <img width="1792" height="1369" alt="Screenshot_Dashboard" src="https://github.com/user-attachments/assets/d02cd733-93c1-403b-a26b-260ee67c9d91" />
 
@@ -136,22 +128,21 @@ The results of these calculations are mapped to the dashboard to provide immedia
 ## Installation and Deployment
 
 1. **Clone the Repository:**
-
 ```bash
 git clone [https://github.com/PurvaMane2005/digital_gallery.git](https://github.com/PurvaMane2005/digital_gallery.git)
 
 ```
 
-2. **Install Dependencies:**
 
+2. **Install Dependencies:**
 ```bash
 pip install -r requirements.txt
 
 ```
 
+
 3. **Configure Environment:**
 Create a `.env` file containing:
-
 ```env
 SUPABASE_URL=your_supabase_url
 SUPABASE_KEY=your_supabase_key
@@ -159,19 +150,30 @@ GEMINI_API_KEY=your_gemini_api_key
 
 ```
 
-4. **Run Ingestion Server:**
 
+4. **Run Ingestion Server:**
 ```bash
 python app.py
 
 ```
 
-5. **Run Discovery Dashboard:**
 
+5. **Run Discovery Dashboard:**
 ```bash
 streamlit run dashboard.py
 
 ```
 
+
+
 ---
 
+### Project Preview
+
+https://github.com/user-attachments/assets/dff7a309-7c9d-4d97-9d22-f4bcc2d9bb78
+
+```
+
+Would you like me to help you refine the `requirements.txt` based on these new features to ensure the installation step works perfectly?
+
+```
