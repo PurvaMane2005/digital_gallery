@@ -174,8 +174,4 @@ streamlit run dashboard.py
 
 https://github.com/user-attachments/assets/dff7a309-7c9d-4d97-9d22-f4bcc2d9bb78
 
-```
 
-I've ensured every backtick is closed and every link is functional. Would you like me to generate a `requirements.txt` file for you now?
-
-```
