@@ -1,3 +1,5 @@
+
+```markdown
 # Digital Curator: AI-Powered Visual Archive
 
 Digital Curator is a systematic solution designed to transform disorganized social media content into a structured, searchable, and intelligent library. Utilizing a WhatsApp-to-Cloud pipeline, the system leverages the **Google Gemini 1.5 Flash** model to extract intent and context from shared video content.
@@ -13,8 +15,8 @@ The platform is built on a decoupled architecture consisting of four specialized
 * **Mechanism:** A FastAPI backend endpoint (running via Uvicorn).
 * **Logic:** When a user shares a URL via WhatsApp, Twilio sends a POST request to the `/whatsapp` webhook. The FastAPI server uses **Instaloader** to scrape video captions and hashtags directly from the source to bypass frontend blocks.
 
-### 2. Intelligence Layer (Gemini 2.5 Flash)
-* **Model:** Google Gemini 2.5 Flash API.
+### 2. Intelligence Layer (Gemini 1.5 Flash)
+* **Model:** Google Gemini 1.5 Flash API.
 * **Synthesis:** The system passes the scraped metadata into the Gemini model. The model performs zero-shot classification to assign categorical labels and generates a concise, punchy 1-sentence summary of the video content.
 
 ### 3. Persistence Layer (Supabase)
@@ -25,8 +27,6 @@ The platform is built on a decoupled architecture consisting of four specialized
 * **Interface:** Streamlit Web Dashboard.
 * **Semantic Search:** A specialized UI that allows users to query their saved archive using natural language, interpreted by the Gemini model to match "vibes" or topics rather than just keywords.
 * **UI/UX Styling:** Injected CSS for a dark-mode aesthetic, custom video clipping masks to remove platform headers, and keyframe-animated discovery modules.
-
-
 
 <img width="1024" height="1024" alt="System_diagram_hackthethread" src="https://github.com/user-attachments/assets/995b0f56-0cca-4919-a2e8-6c9fc260698c" />
 
@@ -48,7 +48,7 @@ Digital Curator solves this by implementing an AI-driven metadata excavation pro
 
 ---
 
-## AI Scoring and Verification Engine (ADDITIONS AFTER VIDEO RECORDING, implementation code snippets and output attached as follows)
+## AI Scoring and Verification Engine
 
 The system implements a multi-stage evaluation pipeline to ensure data integrity. To mitigate AI hallucinations and handle metadata scraping limitations, a hybrid scoring engine combines probabilistic AI inference with deterministic metadata verification.
 
@@ -57,8 +57,6 @@ The system implements a multi-stage evaluation pipeline to ensure data integrity
 Every ingested link is assigned a Confidence Score. This metric informs the user whether the categorization is based on rich metadata or a heuristic guess.
 
 **Logic:** The score is a weighted average of **Data Density** (availability of scraped text) and **Model Certainty** (the LLM's internal probability score).
-
-
 
 ```python
 def calculate_confidence_score(scraped_text, ai_certainty):
@@ -76,13 +74,13 @@ def calculate_confidence_score(scraped_text, ai_certainty):
     
     return round(final_score * 100, 2)
 
+```
+
 ### Dynamic Discovery and Taxonomy Validation
 
 The system utilizes **Zero-Shot Dynamic Tagging**, allowing the platform to adapt to emerging trends without manual updates to a fixed category list. Gemini 1.5 Flash analyzes the semantic fingerprint of the content to generate context-aware labels.
 
 **Implementation Logic:**
-
-
 
 ```python
 def generate_dynamic_tags(scraped_text):
@@ -97,6 +95,8 @@ def generate_dynamic_tags(scraped_text):
         "3. Rate certainty in these tags from 0.0 to 1.0.\n"
     )
     # Returns structured JSON with discovered tags and certainty
+
+```
 
 ### Post-Inference Accuracy Check
 
@@ -136,21 +136,22 @@ The results of these calculations are mapped to the dashboard to provide immedia
 ## Installation and Deployment
 
 1. **Clone the Repository:**
+
 ```bash
 git clone [https://github.com/PurvaMane2005/digital_gallery.git](https://github.com/PurvaMane2005/digital_gallery.git)
 
 ```
 
-
 2. **Install Dependencies:**
+
 ```bash
 pip install -r requirements.txt
 
 ```
 
-
 3. **Configure Environment:**
 Create a `.env` file containing:
+
 ```env
 SUPABASE_URL=your_supabase_url
 SUPABASE_KEY=your_supabase_key
@@ -158,25 +159,19 @@ GEMINI_API_KEY=your_gemini_api_key
 
 ```
 
-
 4. **Run Ingestion Server:**
+
 ```bash
 python app.py
 
 ```
 
-
 5. **Run Discovery Dashboard:**
+
 ```bash
 streamlit run dashboard.py
 
 ```
 
-
-
 ---
-
-### Project Preview
-
-https://github.com/user-attachments/assets/dff7a309-7c9d-4d97-9d22-f4bcc2d9bb78
 
