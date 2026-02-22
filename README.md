@@ -1,5 +1,3 @@
-
-```markdown
 # Digital Curator: AI-Powered Visual Archive
 
 Digital Curator is a systematic solution designed to transform disorganized social media content into a structured, searchable, and intelligent library. Utilizing a WhatsApp-to-Cloud pipeline, the system leverages the **Google Gemini 1.5 Flash** model to extract intent and context from shared video content.
@@ -28,6 +26,8 @@ The platform is built on a decoupled architecture consisting of four specialized
 * **Semantic Search:** A specialized UI that allows users to query their saved archive using natural language, interpreted by the Gemini model to match "vibes" or topics rather than just keywords.
 * **UI/UX Styling:** Injected CSS for a dark-mode aesthetic, custom video clipping masks to remove platform headers, and keyframe-animated discovery modules.
 
+
+
 <img width="1024" height="1024" alt="System_diagram_hackthethread" src="https://github.com/user-attachments/assets/995b0f56-0cca-4919-a2e8-6c9fc260698c" />
 
 ---
@@ -53,9 +53,12 @@ Digital Curator solves this by implementing an AI-driven metadata excavation pro
 The system implements a multi-stage evaluation pipeline to ensure data integrity. To mitigate AI hallucinations and handle metadata scraping limitations, a hybrid scoring engine combines probabilistic AI inference with deterministic metadata verification.
 
 ### Hybrid Confidence Scoring
+
 Every ingested link is assigned a Confidence Score. This metric informs the user whether the categorization is based on rich metadata or a heuristic guess.
 
 **Logic:** The score is a weighted average of **Data Density** (availability of scraped text) and **Model Certainty** (the LLM's internal probability score).
+
+
 
 ```python
 def calculate_confidence_score(scraped_text, ai_certainty):
@@ -72,8 +75,6 @@ def calculate_confidence_score(scraped_text, ai_certainty):
     final_score = (evidence_score * 0.6) + (ai_certainty * 0.4)
     
     return round(final_score * 100, 2)
-
-```
 
 ### Dynamic Discovery and Taxonomy Validation
 
