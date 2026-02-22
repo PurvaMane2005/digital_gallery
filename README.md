@@ -13,8 +13,8 @@ The platform is built on a decoupled architecture consisting of four specialized
 * **Mechanism:** A FastAPI backend endpoint (running via Uvicorn).
 * **Logic:** When a user shares a URL via WhatsApp, Twilio sends a POST request to the `/whatsapp` webhook. The FastAPI server uses **Instaloader** to scrape video captions and hashtags directly from the source to bypass frontend blocks.
 
-### 2. Intelligence Layer (Gemini 1.5 Flash)
-* **Model:** Google Gemini 1.5 Flash API.
+### 2. Intelligence Layer (Gemini 2.5 Flash)
+* **Model:** Google Gemini 2.5 Flash API.
 * **Synthesis:** The system passes the scraped metadata into the Gemini model. The model performs zero-shot classification to assign categorical labels and generates a concise, punchy 1-sentence summary of the video content.
 
 ### 3. Persistence Layer (Supabase)
@@ -48,7 +48,7 @@ Digital Curator solves this by implementing an AI-driven metadata excavation pro
 
 ---
 
-## AI Scoring and Verification Engine
+## AI Scoring and Verification Engine (ADDITIONS AFTER VIDEO RECORDING, implementation code snippets and output attached as follows)
 
 The system implements a multi-stage evaluation pipeline to ensure data integrity. To mitigate AI hallucinations and handle metadata scraping limitations, a hybrid scoring engine combines probabilistic AI inference with deterministic metadata verification.
 
