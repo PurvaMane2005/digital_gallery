@@ -57,16 +57,19 @@ https://github.com/user-attachments/assets/dff7a309-7c9d-4d97-9d22-f4bcc2d9bb78
 
 ADDITIONS:
 
-AI Scoring and Verification Engine
+```markdown
+## AI Scoring and Verification Engine
+
 The system implements a multi-stage evaluation pipeline to ensure data integrity. To mitigate AI hallucinations and handle metadata scraping limitations, a hybrid scoring engine combines probabilistic AI inference with deterministic metadata verification.
 
-Hybrid Confidence Scoring
+### Hybrid Confidence Scoring
+
 Every ingested link is assigned a Confidence Score. This metric informs the user whether the categorization is based on rich metadata or a heuristic guess.
 
-Logic:
-The score is a weighted average of Data Density (availability of scraped text) and Model Certainty (the LLM's internal probability score).
+**Logic:**
+The score is a weighted average of **Data Density** (availability of scraped text) and **Model Certainty** (the LLM's internal probability score).
 
-Python
+```python
 def calculate_confidence_score(scraped_text, ai_certainty):
     """
     Calculates a final confidence percentage.
@@ -79,18 +82,21 @@ def calculate_confidence_score(scraped_text, ai_certainty):
     # 2. Weighted Calculation
     # Raw evidence is prioritized over AI inference to prevent hallucinations.
     final_score = (evidence_score * 0.6) + (ai_certainty * 0.4)
-    
+
     return round(final_score * 100, 2)
-    
-Dynamic Discovery and Taxonomy Validation
-The system utilizes Zero-Shot Dynamic Tagging, allowing the platform to adapt to emerging trends without manual updates to a fixed category list. Gemini 1.5 Flash analyzes the semantic fingerprint of the content to generate context-aware labels.
 
-Implementation Logic:
+```
 
-Python
+### Dynamic Discovery and Taxonomy Validation
+
+The system utilizes **Zero-Shot Dynamic Tagging**, allowing the platform to adapt to emerging trends without manual updates to a fixed category list. Gemini 2.5 Flash analyzes the semantic fingerprint of the content to generate context-aware labels.
+
+**Implementation Logic:**
+
+```python
 def generate_dynamic_tags(scraped_text):
     """
-    Instructional prompt for Gemini to generate context-aware labels
+    Instructional prompt for Gemini to generate context-aware labels 
     rather than selecting from a fixed list.
     """
     prompt = (
@@ -100,32 +106,41 @@ def generate_dynamic_tags(scraped_text):
         "3. Rate certainty in these tags from 0.0 to 1.0.\n"
     )
     # Returns structured JSON with discovered tags and certainty
-    
-Post-Inference Accuracy Check
+
+```
+
+### Post-Inference Accuracy Check
+
 After the AI generates tags, a secondary accuracy heuristic cross-references the selection against domain-specific keywords found in the source text. This provides a "ground truth" verification layer.
 
-Python
+```python
 KEYWORD_MAP = {
     "Coding": ["python", "code", "dev", "api", "software", "terminal"],
     "Food": ["recipe", "cook", "chef", "delicious", "eat", "ingredients"],
     "Fitness": ["gym", "workout", "protein", "training", "reps"]
 }
+
 def verify_accuracy(category, text):
     if not text: 
-        return 0.0  # Verification impossible without source text
+        return 0.0 # Verification impossible without source text
     
     valid_keywords = KEYWORD_MAP.get(category, [])
     matches = [word for word in valid_keywords if word in text.lower()]
-    
+
     # Returns 1.0 (Verified) if keywords exist, otherwise 0.5 (Inference only)
     return 1.0 if len(matches) > 0 else 0.5
 
-    
-Performance Metrics for Dashboard UI
+```
+
+### Performance Metrics for Dashboard UI
+
 The results of these calculations are mapped to the dashboard to provide immediate visual feedback on data reliability:
-Verified (80-100%): High metadata density and confirmed keyword matches.
-Uncertain (40-79%): Valid AI inference but limited supporting metadata.
-Failed/Blocked (0-39%): Scraper blocked by source; categorization based on URL context only.
+
+* **Verified (80-100%):** High metadata density and confirmed keyword matches.
+* **Uncertain (40-79%):** Valid AI inference but limited supporting metadata.
+* **Failed/Blocked (0-39%):** Scraper blocked by source; categorization based on URL context only.
+
+```
 
 <img width="1792" height="1369" alt="Screenshot 2026-02-22 105540" src="https://github.com/user-attachments/assets/d02cd733-93c1-403b-a26b-260ee67c9d91" />
 
