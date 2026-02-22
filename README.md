@@ -82,6 +82,8 @@ The system utilizes **Zero-Shot Dynamic Tagging**, allowing the platform to adap
 
 **Implementation Logic:**
 
+
+
 ```python
 def generate_dynamic_tags(scraped_text):
     """
@@ -95,8 +97,6 @@ def generate_dynamic_tags(scraped_text):
         "3. Rate certainty in these tags from 0.0 to 1.0.\n"
     )
     # Returns structured JSON with discovered tags and certainty
-
-```
 
 ### Post-Inference Accuracy Check
 
