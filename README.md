@@ -1,7 +1,7 @@
 
 # Digital Curator: AI-Powered Visual Archive
 
-Digital Curator is a systematic solution designed to transform disorganized social media content into a structured, searchable, and intelligent library. Utilizing a WhatsApp-to-Cloud pipeline, the system leverages the **Google Gemini 1.5 Flash** model to extract intent and context from shared video content.
+Digital Curator is a systematic solution designed to transform disorganized social media content into a structured, searchable, and intelligent library. Utilizing a WhatsApp-to-Cloud pipeline, the system leverages the **Google Gemini 2.5 Flash** model to extract intent and context from shared video content.
 
 ---
 
